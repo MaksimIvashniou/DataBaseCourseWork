@@ -21,6 +21,8 @@ namespace WManufacture.Common.Entity.Companies.WorkObjects
         [Required]
         public string Description { get; set; }
 
-        public virtual List<WorkObjectResult> WorkObjectResults { get; set; }
+        public virtual WorkObjectResult WorkObjectResult { get; set; }
+    
+        public virtual List<WorkObjectTask> WorkObjectTasks { get; set; }
     }
 }

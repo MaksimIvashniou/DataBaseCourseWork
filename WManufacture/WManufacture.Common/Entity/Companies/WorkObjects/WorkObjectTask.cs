@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WManufacture.Common.Entity.Companies.WeldingMachines;
 
 namespace WManufacture.Common.Entity.Companies.WorkObjects
 {
@@ -13,11 +11,6 @@ namespace WManufacture.Common.Entity.Companies.WorkObjects
         [ForeignKey("WorkObjectId")]
         public virtual WorkObject WorkObject { get; set; }
 
-        public int? WeldingMachineId { get; set; }
-
-        [ForeignKey("WeldingMachineId")]
-        public virtual WeldingMachine WeldingMachine { get; set; }
-
         [Required]
         public string Name { get; set; }
 
@@ -27,8 +20,6 @@ namespace WManufacture.Common.Entity.Companies.WorkObjects
         [Required]
         public int CompanyObjectId { get; set; }
 
-        public virtual List<BookingWorkObjectTask> BookingWorkObjectTasks { get; set; }
-
-        public virtual List<WorkObjectTaskResult> WorkObjectTaskResults { get; set; }
+        public virtual BookingWorkObjectTask BookingWorkObjectTask { get; set; }
     }
 }

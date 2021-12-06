@@ -25,7 +25,7 @@ namespace WManufacture.Common.Entity.Companies.Employees
         public string LastName { get; set; }
 
         [Required]
-        public string Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
         [Required]
         public string AdditionalInfo { get; set; }

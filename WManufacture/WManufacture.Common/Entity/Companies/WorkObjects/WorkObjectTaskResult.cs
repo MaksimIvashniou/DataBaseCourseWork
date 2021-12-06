@@ -9,10 +9,10 @@ namespace WManufacture.Common.Entity.Companies.WorkObjects
         public int Id { get; set; }
 
         [Required]
-        public int WorkObjectTaskId { get; set; }
+        public int BookingWorkObjectTaskId { get; set; }
 
-        [ForeignKey("WorkObjectTaskId")]
-        public virtual WorkObjectTask WorkObjectTask { get; set; }
+        [ForeignKey("BookingWorkObjectTaskId")]
+        public virtual BookingWorkObjectTask BookingWorkObjectTask { get; set; }
 
         [Required]
         public bool IsSuccess { get; set; }
