@@ -8,11 +8,19 @@ namespace WManufacture.Common.Entity.Companies
 {
     public class Company
     {
+        #region DB columns
+
+        #region Keys
+
         [Key]
         public int Id { get; set; }
-
+        
+        #endregion Keys
+        
         [Required]
         public string Name { get; set; }
+
+        #endregion DB columns
 
         [Required]
         public virtual List<Employee> Employees { get; set; }

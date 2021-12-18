@@ -5,19 +5,27 @@ namespace WManufacture.Common.Entity.Companies.Employees
 {
     public class PositionPermissions
     {
+        #region DB columns
+
+        #region Keys
+
         [Key]
         public int Id { get; set; }
+
+        [ForeignKey("PermissionId")]
+        public virtual Permission Permission { get; set; }
+
+        [ForeignKey("PositionId")]
+        public virtual Position Position { get; set; }
 
         [Required]
         public int PermissionId { get; set; }
 
-        [ForeignKey("PermissionId")]
-        public Permission Permission { get; set; }
-
         [Required]
         public int PositionId { get; set; }
 
-        [ForeignKey("PositionId")]
-        public virtual Position Position { get; set; }
+        #endregion Keys
+
+        #endregion DB columns
     }
 }

@@ -6,15 +6,21 @@ namespace WManufacture.Common.Entity.Companies.Employees
 {
     public class PersonalInfo
     {
+        #region DB columns
+
+        #region Keys
+
         [Key]
         public int Id { get; set; }
+
+        [ForeignKey("EmployeeId")]
+        public virtual Employee Employee { get; set; }
 
         [Required]
         public int EmployeeId { get; set; }
 
-        [ForeignKey("EmployeeId")]
-        public Employee Employee { get; set; }
-
+        #endregion Keys
+        
         [Required]
         public string FirstName { get; set; }
 
@@ -41,5 +47,7 @@ namespace WManufacture.Common.Entity.Companies.Employees
 
         [Required]
         public bool IsUserBlocked { get; set; }
+
+        #endregion DB columns
     }
 }

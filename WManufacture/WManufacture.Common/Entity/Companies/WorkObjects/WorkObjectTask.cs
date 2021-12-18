@@ -1,10 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WManufacture.Common.Entity.Companies.WorkObjects
 {
     public class WorkObjectTask
     {
+        #region DB columns
+
+        #region Keys
+
         [Key]
         public int Id { get; set; }
 
@@ -12,14 +17,18 @@ namespace WManufacture.Common.Entity.Companies.WorkObjects
         public virtual WorkObject WorkObject { get; set; }
 
         [Required]
+        public int WorkObjectId { get; set; }
+
+        #endregion Keys
+
+        [Required]
         public string Name { get; set; }
 
         [Required]
         public string Description { get; set; }
 
-        [Required]
-        public int CompanyObjectId { get; set; }
+        #endregion DB columns
 
-        public virtual BookingWorkObjectTask BookingWorkObjectTask { get; set; }
+        public virtual List<BookingWorkObjectTask> BookingWorkObjectTasks { get; set; }
     }
 }

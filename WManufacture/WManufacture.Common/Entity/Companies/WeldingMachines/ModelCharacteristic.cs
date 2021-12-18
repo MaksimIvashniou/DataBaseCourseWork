@@ -5,8 +5,20 @@ namespace WManufacture.Common.Entity.Companies.WeldingMachines
 {
     public class ModelCharacteristic
     {
+        #region DB columns
+
+        #region Keys
+
         [Key]
         public int Id { get; set; }
+
+        [ForeignKey("ModelOfWeldingMachineId")]
+        public virtual ModelOfWeldingMachine ModelOfWeldingMachine { get; set; }
+
+        [Required]
+        public int ModelOfWeldingMachineId { get; set; }
+
+        #endregion Keys
 
         [Required]
         public int MinVoltage { get; set; }
@@ -23,10 +35,6 @@ namespace WManufacture.Common.Entity.Companies.WeldingMachines
         [Required]
         public int MaxPowerConsuption { get; set; }
 
-        [Required]
-        public int ModelOfWeldingMachineId { get; set; }
-
-        [ForeignKey("ModelOfWeldingMachineId")]
-        public virtual ModelOfWeldingMachine ModelOfWeldingMachine { get; set; }
+        #endregion DB columns
     }
 }
