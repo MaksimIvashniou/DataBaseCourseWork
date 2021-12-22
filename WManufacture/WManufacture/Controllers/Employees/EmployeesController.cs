@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 using WManufacture.Infrastructure.Services.Employees;
 
-namespace WManufacture.Controllers
+namespace WManufacture.Controllers.Employees
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -45,11 +45,13 @@ namespace WManufacture.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetAsync(int id)
+        public async Task<ActionResult<Employee>> GetAsync(
+            int id)
         {
             try
             {
-                var item = _employeeService.GetAsync(id);
+                var item = _employeeService.GetAsync(
+                    id);
 
                 if(item != null)
                 {
@@ -71,20 +73,22 @@ namespace WManufacture.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] Employee data)
+        public async Task<IActionResult> CreateAsync(
+            [FromBody] Employee data)
         {
             if(data != null)
             {
                 try
                 {
-                    await _employeeService.CreateAsync(data);
+                    await _employeeService.CreateAsync(
+                        data);
 
                     return StatusCode(204);
                 }
                 catch(Exception ex)
                 {
                     _logger.LogError(
-                        "Error with GET Employees",
+                        "Error with POST Employees",
                         ex);
 
                     return StatusCode(500);
@@ -103,7 +107,7 @@ namespace WManufacture.Controllers
         {
             if (id > 0
                 && data != null
-                && id == data.Id)
+                && data.Id == id)
             {
                 try
                 {
@@ -116,7 +120,35 @@ namespace WManufacture.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with GET Employees",
+                        "Error with PUT Employees",
+                        ex);
+
+                    return StatusCode(500);
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(
+            int id)
+        {
+            if (id > 0)
+            {
+                try
+                {
+                    await _employeeService.DeleteAsync(
+                        id);
+
+                    return StatusCode(204);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(
+                        "Error with DELETE Emloyees",
                         ex);
 
                     return StatusCode(500);
