@@ -6,6 +6,7 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines
 {
     public interface IWeldingMachineService
     {
+        Task<List<WeldingMachine>> GetAsync();
 
         Task<WeldingMachine> GetAsync(int id);
 

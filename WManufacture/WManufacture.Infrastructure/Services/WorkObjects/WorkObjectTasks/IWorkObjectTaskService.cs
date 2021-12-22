@@ -6,6 +6,7 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks
 {
     public interface IWorkObjectTaskService
     {
+        Task<List<WorkObjectTask>> GetAsync();
 
         Task<WorkObjectTask> GetAsync(int id);
 

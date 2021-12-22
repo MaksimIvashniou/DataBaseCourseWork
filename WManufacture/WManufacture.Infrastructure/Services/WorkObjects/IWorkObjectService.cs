@@ -8,6 +8,7 @@ namespace WManufacture.Infrastructure.Services.WorkObjects
     {
         Task<WorkObject> GetAsync(int id);
 
+        Task<List<WorkObject>> GetAsync();
 
         Task CreateAsync(WorkObject data);
 

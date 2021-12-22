@@ -51,6 +51,12 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks
             return workObjectTask;
         }
 
+        public async Task<List<WorkObjectTask>> GetAsync()
+        {
+            var workObjectTasks = await _db.WorkObjectTasks.ToListAsync();
+
+            return workObjectTasks;
+        }
 
         public async Task UpdateAsync(
             int id, 

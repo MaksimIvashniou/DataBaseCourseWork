@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 using WManufacture.Infrastructure.Databases;
@@ -51,6 +52,13 @@ namespace WManufacture.Infrastructure.Services.Employees.Positions
             var position = await _db.Positions.FindAsync(id);
 
             return position;
+        }
+
+        public async Task<List<Position>> GetAsync()
+        {
+            var positions = await _db.Positions.ToListAsync();
+
+            return positions;
         }
 
         public async Task UpdateAsync(

@@ -47,6 +47,12 @@ namespace WManufacture.Infrastructure.Services.Companies
             }
         }
 
+        public async Task<List<Company>> GetAsync()
+        {
+            var companies = await _db.Companies.ToListAsync();
+
+            return companies;
+        }
 
         public async Task<Company> GetAsync(int id)
         {

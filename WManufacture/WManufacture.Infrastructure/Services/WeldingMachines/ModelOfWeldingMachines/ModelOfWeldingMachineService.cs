@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WeldingMachines;
 using WManufacture.Infrastructure.Databases;
@@ -51,6 +52,13 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMac
             var modelOfWeldingMachine = await _db.ModelOfWeldingMachines.FindAsync(id);
 
             return modelOfWeldingMachine;
+        }
+
+        public async Task<List<ModelOfWeldingMachine>> GetAsync()
+        {
+            var modelOfWeldingMachines = await _db.ModelOfWeldingMachines.ToListAsync();
+
+            return modelOfWeldingMachines;
         }
 
         public async Task UpdateAsync(

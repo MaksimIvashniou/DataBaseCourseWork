@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WorkObjects;
 using WManufacture.Infrastructure.Databases;
@@ -47,6 +49,13 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.BookingWorkObjectTask
             var bookingWorkOdjectTask = await _db.BookingWorkObjectTasks.FindAsync(id);
 
             return bookingWorkOdjectTask;
+        }
+
+        public async Task<List<BookingWorkObjectTask>> GetAsync()
+        {
+            var bookingWorkOdjectTasks = await _db.BookingWorkObjectTasks.ToListAsync();
+
+            return bookingWorkOdjectTasks;
         }
 
         public async Task UpdateAsync(

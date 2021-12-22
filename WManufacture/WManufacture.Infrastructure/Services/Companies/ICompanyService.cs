@@ -8,6 +8,7 @@ namespace WManufacture.Infrastructure.Services.Companies
     {
         Task<Company> GetAsync(int id);
 
+        Task<List<Company>> GetAsync();
 
         Task CreateAsync(Company data);
 

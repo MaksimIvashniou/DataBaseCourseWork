@@ -54,6 +54,12 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines
             return weldingMachine;
         }
 
+        public async Task<List<WeldingMachine>> GetAsync()
+        {
+            var weldingMachines = await _db.WeldingMachines.ToListAsync();
+
+            return weldingMachines;
+        }
 
         public async Task UpdateAsync(
             int id, 

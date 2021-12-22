@@ -46,9 +46,11 @@ namespace WManufacture.Infrastructure.Services.Employees
             }
         }
 
-        public Task<List<Employee>> GetAsync()
+        public async Task<List<Employee>> GetAsync()
         {
-            throw new System.NotImplementedException();
+            var employees = await _db.Employees.ToListAsync();
+
+            return employees;
         }
 
         public async Task<Employee> GetAsync(int id)
@@ -67,9 +69,8 @@ namespace WManufacture.Infrastructure.Services.Employees
             {
                 var employee = await _db.Employees.FindAsync(id);
 
-                //TODO Where(item => item.Login)
-
-                if (employee != null)
+                if (employee != null
+                    && !await _db.Employees.AnyAsync(employee => employee.Login.Equals(data.Login)))
                 {
                     employee.Login = data.Login;
 
