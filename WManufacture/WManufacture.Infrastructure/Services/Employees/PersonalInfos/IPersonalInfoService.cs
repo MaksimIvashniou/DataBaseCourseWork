@@ -7,9 +7,9 @@ namespace WManufacture.Infrastructure.Services.Employees.PersonalInfos
     {
         Task<PersonalInfo> GetAsync(int id);
 
-        Task<PersonalInfo> CreateAsync(PersonalInfo data);
+        Task CreateAsync(PersonalInfo data);
 
-        Task<PersonalInfo> UpdateAsync(
+        Task UpdateAsync(
             int id,
             PersonalInfo data);
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WeldingMachines;
 using WManufacture.Infrastructure.Databases;
@@ -9,26 +10,28 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMac
     {
         private readonly WManufactureContext _db;
 
-        public ModelOfWeldingMachineService(WManufactureContext db)
+        private readonly ILogger<ModelOfWeldingMachineService> _logger;
+
+        public ModelOfWeldingMachineService(
+            WManufactureContext db, 
+            ILogger<ModelOfWeldingMachineService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<ModelOfWeldingMachine> CreateAsync(ModelOfWeldingMachine data)
+        public async Task CreateAsync(ModelOfWeldingMachine data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 if (!await _db.ModelOfWeldingMachines.AnyAsync(model => model.Name.Equals(data.Name)))
                 {
                     _db.ModelOfWeldingMachines.Add(data);
 
                     await _db.SaveChangesAsync();
-
-                    return data;
                 }
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -50,11 +53,12 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMac
             return modelOfWeldingMachine;
         }
 
-        public async Task<ModelOfWeldingMachine> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             ModelOfWeldingMachine data)
         {
-            if (data.Id != id)
+            if (data != null
+                && data.Id == id)
             {
                 var modelOfWeldingMachine = await _db.ModelOfWeldingMachines.FindAsync(id);
 
@@ -65,12 +69,8 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMac
                     _db.Update(modelOfWeldingMachine);
 
                     await _db.SaveChangesAsync();
-
-                    return modelOfWeldingMachine;
                 }
             }
-
-            return null;
         }
     }
 }

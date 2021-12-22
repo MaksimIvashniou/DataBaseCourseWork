@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies;
 
 namespace WManufacture.Infrastructure.Services.Companies
@@ -7,9 +8,10 @@ namespace WManufacture.Infrastructure.Services.Companies
     {
         Task<Company> GetAsync(int id);
 
-        Task<Company> CreateAsync(Company data);
 
-        Task<Company> UpdateAsync(
+        Task CreateAsync(Company data);
+
+        Task UpdateAsync(
             int id,
             Company data);
 

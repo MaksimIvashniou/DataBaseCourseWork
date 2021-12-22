@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WeldingMachines;
 using WManufacture.Infrastructure.Databases;
 
@@ -8,23 +9,25 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacterist
     {
         private readonly WManufactureContext _db;
 
-        public ModelCharacteristicService(WManufactureContext db)
+        private readonly ILogger<ModelCharacteristicService> _logger;
+
+        public ModelCharacteristicService(
+            WManufactureContext db, 
+            ILogger<ModelCharacteristicService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<ModelCharacteristic> CreateAsync(ModelCharacteristic data)
+        public async Task CreateAsync(ModelCharacteristic data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 _db.ModelCharacteristics.Add(data);
 
                 await _db.SaveChangesAsync();
-
-                return data;
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -46,11 +49,12 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacterist
             return modelCharacteristic;
         }
 
-        public async Task<ModelCharacteristic> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             ModelCharacteristic data)
         {
-            if (data.Id == id)
+            if (data != null
+                && data.Id == id)
             {
                 var modelCharacteristic = await _db.ModelCharacteristics.FindAsync(id);
 
@@ -67,12 +71,8 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacterist
                     _db.Update(modelCharacteristic);
 
                     await _db.SaveChangesAsync();
-
-                    return modelCharacteristic;
                 }
             }
-
-            return null;
         }
     }
 }

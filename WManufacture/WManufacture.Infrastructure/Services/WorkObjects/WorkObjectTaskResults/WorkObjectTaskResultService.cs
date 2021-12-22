@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WorkObjects;
 using WManufacture.Infrastructure.Databases;
 
@@ -8,23 +9,25 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTaskResults
     {
         private readonly WManufactureContext _db;
 
-        public WorkObjectTaskResultService(WManufactureContext db)
+        private readonly ILogger<WorkObjectTaskResultService> _logger;
+
+        public WorkObjectTaskResultService(
+            WManufactureContext db, 
+            ILogger<WorkObjectTaskResultService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<WorkObjectTaskResult> CreateAsync(WorkObjectTaskResult data)
+        public async Task CreateAsync(WorkObjectTaskResult data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 _db.WorkObjectTaskResults.Add(data);
 
                 await _db.SaveChangesAsync();
-
-                return data;
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -46,11 +49,12 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTaskResults
             return workObjectTaskResult;
         }
 
-        public async Task<WorkObjectTaskResult> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             WorkObjectTaskResult data)
         {
-            if (data.Id == id)
+            if (data != null
+                && data.Id == id)
             {
                 var workObjectTaskResult = await _db.WorkObjectTaskResults.FindAsync(id);
 
@@ -63,12 +67,8 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTaskResults
                     _db.Update(workObjectTaskResult);
 
                     await _db.SaveChangesAsync();
-
-                    return data;
                 }
             }
-
-            return null;
         }
     }
 }

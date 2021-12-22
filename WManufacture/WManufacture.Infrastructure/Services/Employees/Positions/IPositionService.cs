@@ -7,9 +7,9 @@ namespace WManufacture.Infrastructure.Services.Employees.Positions
     {
         Task<Position> GetAsync(int id);
 
-        Task<Position> CreateAsync(Position data);
+        Task CreateAsync(Position data);
 
-        Task<Position> UpdateAsync(
+        Task UpdateAsync(
             int id,
             Position data);
 

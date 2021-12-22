@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 using WManufacture.Infrastructure.Databases;
 
@@ -8,23 +9,25 @@ namespace WManufacture.Infrastructure.Services.Employees.PersonalInfos
     {
         private readonly WManufactureContext _db;
 
-        public PersonalInfoService(WManufactureContext db)
+        private readonly ILogger<PersonalInfoService> _logger;
+
+        public PersonalInfoService(
+            WManufactureContext db, 
+            ILogger<PersonalInfoService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<PersonalInfo> CreateAsync(PersonalInfo data)
+        public async Task CreateAsync(PersonalInfo data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 _db.PersonalInfos.Add(data);
 
                 await _db.SaveChangesAsync();
-
-                return data;
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -46,11 +49,12 @@ namespace WManufacture.Infrastructure.Services.Employees.PersonalInfos
             return personalInfo;
         }
 
-        public async Task<PersonalInfo> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             PersonalInfo data)
         {
-            if (data.Id == id)
+            if (data != null
+                && data.Id == id)
             {
                 var personalInfo = await _db.PersonalInfos.FindAsync(id);
 
@@ -69,12 +73,8 @@ namespace WManufacture.Infrastructure.Services.Employees.PersonalInfos
                     _db.Update(personalInfo);
 
                     await _db.SaveChangesAsync();
-
-                    return personalInfo;
                 }
             }
-
-            return null;
         }
     }
 }

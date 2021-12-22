@@ -7,9 +7,9 @@ namespace WManufacture.Infrastructure.Services.Employees.Permissions
     {
         Task<Permission> GetAsync(int id);
 
-        Task<Permission> CreateAsync(Permission data);
+        Task CreateAsync(Permission data);
 
-        Task<Permission> UpdateAsync(
+        Task UpdateAsync(
             int id,
             Permission data);
 

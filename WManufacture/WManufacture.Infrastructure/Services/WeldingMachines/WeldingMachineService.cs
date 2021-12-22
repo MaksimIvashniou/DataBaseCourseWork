@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WeldingMachines;
 using WManufacture.Infrastructure.Databases;
@@ -9,14 +11,20 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines
     {
         private readonly WManufactureContext _db;
 
-        public WeldingMachineService(WManufactureContext db)
+        private readonly ILogger<WeldingMachineService> _logger;
+
+        public WeldingMachineService(
+            WManufactureContext db,
+            ILogger<WeldingMachineService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<WeldingMachine> CreateAsync(WeldingMachine data)
+        public async Task CreateAsync(WeldingMachine data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 if (!await _db.WeldingMachines.AnyAsync(weldingMachine => weldingMachine.Name.Equals(data.Name)))
                 {
@@ -24,11 +32,7 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines
 
                     await _db.SaveChangesAsync();
                 }
-
-                return data;
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -50,11 +54,13 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines
             return weldingMachine;
         }
 
-        public async Task<WeldingMachine> UpdateAsync(
+
+        public async Task UpdateAsync(
             int id, 
             WeldingMachine data)
         {
-            if (id == data.Id)
+            if (data != null
+                && data.Id == id)
             {
                 var weldingMachine = await _db.WeldingMachines.FindAsync(id);
 
@@ -67,12 +73,8 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines
                     _db.Update(weldingMachine);
 
                     await _db.SaveChangesAsync();
-
-                    return weldingMachine;
                 }
             }
-
-            return null;
         }
     }
 }

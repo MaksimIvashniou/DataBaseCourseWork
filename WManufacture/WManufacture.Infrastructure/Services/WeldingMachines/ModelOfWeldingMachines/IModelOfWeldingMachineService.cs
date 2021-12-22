@@ -7,9 +7,9 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMac
     {
         Task<ModelOfWeldingMachine> GetAsync(int id);
 
-        Task<ModelOfWeldingMachine> CreateAsync(ModelOfWeldingMachine data);
+        Task CreateAsync(ModelOfWeldingMachine data);
 
-        Task<ModelOfWeldingMachine> UpdateAsync(
+        Task UpdateAsync(
             int id,
             ModelOfWeldingMachine data);
 

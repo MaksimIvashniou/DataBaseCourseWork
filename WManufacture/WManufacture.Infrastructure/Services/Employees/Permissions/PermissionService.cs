@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 using WManufacture.Infrastructure.Databases;
@@ -9,26 +10,28 @@ namespace WManufacture.Infrastructure.Services.Employees.Permissions
     {
         private readonly WManufactureContext _db;
 
-        public PermissionService(WManufactureContext db)
+        private readonly ILogger<PermissionService> _logger;
+
+        public PermissionService(
+            WManufactureContext db,
+            ILogger<PermissionService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<Permission> CreateAsync(Permission data)
+        public async Task CreateAsync(Permission data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 if (!await _db.Permissions.AnyAsync(permission => permission.Name.Equals(data.Name)))
                 {
                     _db.Permissions.Add(data);
 
                     await _db.SaveChangesAsync();
-
-                    return data;
                 }
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -50,27 +53,25 @@ namespace WManufacture.Infrastructure.Services.Employees.Permissions
             return permission;
         }
 
-        public async Task<Permission> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             Permission data)
         {
-            if (id == data.Id)
+            if (data != null 
+                && data.Id == id)
             {
                 var permission = await _db.Permissions.FindAsync(id);
 
-                if (permission != null)
+                if (permission != null
+                    && !await _db.Permissions.AnyAsync(permission => permission.Name.Equals(data.Name)))
                 {
                     permission.Name = data.Name;
 
                     _db.Update(permission);
 
                     await _db.SaveChangesAsync();
-
-                    return permission;
                 }
             }
-
-            return null;
         }
     }
 }

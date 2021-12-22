@@ -7,9 +7,9 @@ namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacterist
     {
         Task<ModelCharacteristic> GetAsync(int id);
 
-        Task<ModelCharacteristic> CreateAsync(ModelCharacteristic data);
+        Task CreateAsync(ModelCharacteristic data);
 
-        Task<ModelCharacteristic> UpdateAsync(
+        Task UpdateAsync(
             int id,
             ModelCharacteristic data);
 

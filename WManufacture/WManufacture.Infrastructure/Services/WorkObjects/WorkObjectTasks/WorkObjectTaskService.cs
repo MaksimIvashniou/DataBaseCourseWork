@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WorkObjects;
 using WManufacture.Infrastructure.Databases;
 
@@ -8,23 +11,25 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks
     {
         private readonly WManufactureContext _db;
 
-        public WorkObjectTaskService(WManufactureContext db)
+        private readonly ILogger<WorkObjectTaskService> _logger;
+
+        public WorkObjectTaskService(
+            WManufactureContext db, 
+            ILogger<WorkObjectTaskService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<WorkObjectTask> CreateAsync(WorkObjectTask data)
+        public async Task CreateAsync(WorkObjectTask data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 _db.WorkObjectTasks.Add(data);
 
                 await _db.SaveChangesAsync();
-
-                return data;
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -46,11 +51,13 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks
             return workObjectTask;
         }
 
-        public async Task<WorkObjectTask> UpdateAsync(
+
+        public async Task UpdateAsync(
             int id, 
             WorkObjectTask data)
         {
-            if (data.Id == id)
+            if (data != null
+                && data.Id == id)
             {
                 var workObjectTask = await _db.WorkObjectTasks.FindAsync(id);
 
@@ -63,12 +70,8 @@ namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks
                     _db.Update(workObjectTask);
 
                     await _db.SaveChangesAsync();
-
-                    return data;
                 }
             }
-
-            return null;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 using WManufacture.Infrastructure.Databases;
@@ -9,26 +10,28 @@ namespace WManufacture.Infrastructure.Services.Employees.Positions
     {
         private readonly WManufactureContext _db;
 
-        public PositionService(WManufactureContext db)
+        private readonly ILogger<PositionService> _logger;
+
+        public PositionService(
+            WManufactureContext db,
+            ILogger<PositionService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<Position> CreateAsync(Position data)
+        public async Task CreateAsync(Position data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 if (!await _db.Positions.AnyAsync(position => position.Name.Equals(data.Name)))
                 {
                     _db.Positions.Add(data);
 
                     await _db.SaveChangesAsync();
-
-                    return data;
                 }
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -50,11 +53,12 @@ namespace WManufacture.Infrastructure.Services.Employees.Positions
             return position;
         }
 
-        public async Task<Position> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             Position data)
         {
-            if (data.Id == id)
+            if (data != null
+                && data.Id == id)
             {
                 var position = await _db.Positions.FindAsync(id);
 
@@ -65,12 +69,8 @@ namespace WManufacture.Infrastructure.Services.Employees.Positions
                     _db.Update(position);
 
                     await _db.SaveChangesAsync();
-
-                    return position;
                 }
             }
-
-            return null;
         }
     }
 }

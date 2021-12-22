@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WorkObjects;
 using WManufacture.Infrastructure.Databases;
@@ -9,14 +11,20 @@ namespace WManufacture.Infrastructure.Services.WorkObjects
     {
         private readonly WManufactureContext _db;
 
-        public WorkObjectService(WManufactureContext db)
+        private readonly ILogger<WorkObjectService> _logger;
+
+        public WorkObjectService(
+            WManufactureContext db,
+            ILogger<WorkObjectService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<WorkObject> CreateAsync(WorkObject data)
+        public async Task CreateAsync(WorkObject data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 if (!await _db.WeldingMachines.AnyAsync(workObject => workObject.Name.Equals(data.Name)))
                 {
@@ -24,11 +32,7 @@ namespace WManufacture.Infrastructure.Services.WorkObjects
 
                     await _db.SaveChangesAsync();
                 }
-
-                return data;
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -37,11 +41,12 @@ namespace WManufacture.Infrastructure.Services.WorkObjects
 
             if (workObject != null)
             {
-                _db.Remove(workObject);
+                _db.WorkObjects.Remove(workObject);
 
                 await _db.SaveChangesAsync();
             }
         }
+
 
         public async Task<WorkObject> GetAsync(int id)
         {
@@ -50,15 +55,17 @@ namespace WManufacture.Infrastructure.Services.WorkObjects
             return workObject;
         }
 
-        public async Task<WorkObject> UpdateAsync(
+        public async Task UpdateAsync(
             int id,
             WorkObject data)
         {
-            if (id == data.Id)
+            if (data != null
+                && data.Id == id)
             {
                 var workObject = await _db.WorkObjects.FindAsync(id);
 
-                if (workObject != null)
+                if (workObject != null
+                    && !await _db.WorkObjects.AnyAsync(workObjects => workObjects.Name.Equals(data.Name)))
                 {
                     workObject.Name = data.Name;
 
@@ -67,12 +74,8 @@ namespace WManufacture.Infrastructure.Services.WorkObjects
                     _db.Update(workObject);
 
                     await _db.SaveChangesAsync();
-
-                    return workObject;
                 }
             }
-
-            return null;
         }
     }
 }

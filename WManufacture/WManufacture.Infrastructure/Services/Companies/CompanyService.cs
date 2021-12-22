@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies;
 using WManufacture.Infrastructure.Databases;
@@ -9,14 +11,20 @@ namespace WManufacture.Infrastructure.Services.Companies
     {
         private readonly WManufactureContext _db;
 
-        public CompanyService(WManufactureContext db)
+        private readonly ILogger<CompanyService> _logger;
+
+        public CompanyService(
+            WManufactureContext db,
+            ILogger<CompanyService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<Company> CreateAsync(Company data)
+        public async Task CreateAsync(Company data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 if (!await _db.Companies.AnyAsync(company => company.Name.Equals(data.Name)))
                 {
@@ -24,11 +32,7 @@ namespace WManufacture.Infrastructure.Services.Companies
 
                     await _db.SaveChangesAsync();
                 }
-
-                return data;
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -43,6 +47,7 @@ namespace WManufacture.Infrastructure.Services.Companies
             }
         }
 
+
         public async Task<Company> GetAsync(int id)
         {
             var company = await _db.Companies.FindAsync(id);
@@ -50,27 +55,25 @@ namespace WManufacture.Infrastructure.Services.Companies
             return company;
         }
 
-        public async Task<Company> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             Company data)
         {
-            if (id == data.Id)
+            if (data != null
+                && data.Id == id)
             {
                 var company = await _db.Companies.FindAsync(id);
 
-                if (company != null)
+                if (company != null
+                    && !await _db.Companies.AnyAsync(company => company.Name.Equals(data.Name)))
                 {
                     company.Name = data.Name;
 
                     _db.Update(company);
 
                     await _db.SaveChangesAsync();
-
-                    return company;
                 }
             }
-
-            return null;
         }
     }
 }
