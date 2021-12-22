@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WorkObjects;
 
-namespace WManufacture.Infrastructure.Services.WorkObjectTasks
+namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks
 {
     public interface IWorkObjectTaskService
     {

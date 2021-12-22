@@ -2,7 +2,7 @@
 using WManufacture.Common.Entity.Companies.WorkObjects;
 using WManufacture.Infrastructure.Databases;
 
-namespace WManufacture.Infrastructure.Services.WorkObjectResults
+namespace WManufacture.Infrastructure.Services.WorkObjects.WorkObjectResults
 {
     public class WorkObjectResultService : IWorkObjectResultService
     {

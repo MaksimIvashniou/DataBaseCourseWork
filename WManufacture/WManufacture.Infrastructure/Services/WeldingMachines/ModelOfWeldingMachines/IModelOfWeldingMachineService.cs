@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WeldingMachines;
 
-namespace WManufacture.Infrastructure.Services.ModelOfWeldingMachines
+namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMachines
 {
     public interface IModelOfWeldingMachineService
     {

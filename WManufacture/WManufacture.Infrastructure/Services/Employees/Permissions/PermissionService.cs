@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 using WManufacture.Infrastructure.Databases;
 
-namespace WManufacture.Infrastructure.Services.Permissions
+namespace WManufacture.Infrastructure.Services.Employees.Permissions
 {
     public class PermissionService : IPermissionService
     {

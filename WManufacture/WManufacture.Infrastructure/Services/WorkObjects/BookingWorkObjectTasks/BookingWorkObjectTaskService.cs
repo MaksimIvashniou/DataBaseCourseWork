@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WorkObjects;
 using WManufacture.Infrastructure.Databases;
 
-namespace WManufacture.Infrastructure.Services.BookingWorkObjectTasks
+namespace WManufacture.Infrastructure.Services.WorkObjects.BookingWorkObjectTasks
 {
     public class BookingWorkObjectTaskService : IBookingWorkObjectTaskService
     {

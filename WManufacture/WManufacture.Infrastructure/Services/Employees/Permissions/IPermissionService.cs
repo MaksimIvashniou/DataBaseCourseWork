@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 
-namespace WManufacture.Infrastructure.Services.Permissions
+namespace WManufacture.Infrastructure.Services.Employees.Permissions
 {
     public interface IPermissionService
     {

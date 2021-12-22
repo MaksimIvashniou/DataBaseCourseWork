@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WeldingMachines;
 using WManufacture.Infrastructure.Databases;
 
-namespace WManufacture.Infrastructure.Services.ModelOfWeldingMachines
+namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMachines
 {
     public class ModelOfWeldingMachineService : IModelOfWeldingMachineService
     {

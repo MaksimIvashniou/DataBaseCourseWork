@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 
-namespace WManufacture.Infrastructure.Services.PersonalInfos
+namespace WManufacture.Infrastructure.Services.Employees.PersonalInfos
 {
     public interface IPersonalInfoService
     {

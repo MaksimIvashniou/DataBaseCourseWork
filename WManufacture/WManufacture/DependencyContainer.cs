@@ -6,15 +6,15 @@ using WManufacture.Infrastructure.Services.Companies;
 using WManufacture.Infrastructure.Services.Employees;
 using WManufacture.Infrastructure.Services.WeldingMachines;
 using WManufacture.Infrastructure.Services.WorkObjects;
-using WManufacture.Infrastructure.Services.BookingWorkObjectTasks;
-using WManufacture.Infrastructure.Services.ModelCharacteristics;
-using WManufacture.Infrastructure.Services.ModelOfWeldingMachines;
-using WManufacture.Infrastructure.Services.Permissions;
-using WManufacture.Infrastructure.Services.PersonalInfos;
-using WManufacture.Infrastructure.Services.Positions;
-using WManufacture.Infrastructure.Services.WorkObjectResults;
-using WManufacture.Infrastructure.Services.WorkObjectTaskResults;
-using WManufacture.Infrastructure.Services.WorkObjectTasks;
+using WManufacture.Infrastructure.Services.WorkObjects.BookingWorkObjectTasks;
+using WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacteristics;
+using WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMachines;
+using WManufacture.Infrastructure.Services.Employees.Permissions;
+using WManufacture.Infrastructure.Services.Employees.PersonalInfos;
+using WManufacture.Infrastructure.Services.WorkObjects.WorkObjectResults;
+using WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTaskResults;
+using WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks;
+using WManufacture.Infrastructure.Services.Employees.Positions;
 
 namespace WManufacture
 {

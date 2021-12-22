@@ -2,7 +2,7 @@
 using WManufacture.Common.Entity.Companies.Employees;
 using WManufacture.Infrastructure.Databases;
 
-namespace WManufacture.Infrastructure.Services.PersonalInfos
+namespace WManufacture.Infrastructure.Services.Employees.PersonalInfos
 {
     public class PersonalInfoService : IPersonalInfoService
     {

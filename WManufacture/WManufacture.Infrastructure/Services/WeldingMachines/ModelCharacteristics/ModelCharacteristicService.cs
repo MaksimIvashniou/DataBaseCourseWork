@@ -2,7 +2,7 @@
 using WManufacture.Common.Entity.Companies.WeldingMachines;
 using WManufacture.Infrastructure.Databases;
 
-namespace WManufacture.Infrastructure.Services.ModelCharacteristics
+namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacteristics
 {
     public class ModelCharacteristicService : IModelCharacteristicService
     {

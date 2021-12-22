@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.Employees;
 
-namespace WManufacture.Infrastructure.Services.Positions
+namespace WManufacture.Infrastructure.Services.Employees.Positions
 {
     public interface IPositionService
     {

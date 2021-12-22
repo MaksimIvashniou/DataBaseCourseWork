@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WeldingMachines;
 
-namespace WManufacture.Infrastructure.Services.ModelCharacteristics
+namespace WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacteristics
 {
     public interface IModelCharacteristicService
     {
