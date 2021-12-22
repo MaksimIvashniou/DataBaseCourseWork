@@ -72,7 +72,13 @@ namespace WManufacture.Infrastructure.Services.Employees
 
                 if (employee != null)
                 {
-                    //
+                    employee.Login = data.Login;
+
+                    employee.Password = data.Password;
+
+                    _db.Update(employee);
+
+                    await _db.SaveChangesAsync();
 
                     return employee;
                 }

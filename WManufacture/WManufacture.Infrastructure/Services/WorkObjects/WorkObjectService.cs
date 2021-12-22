@@ -1,15 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WorkObjects;
 using WManufacture.Infrastructure.Databases;
 
 namespace WManufacture.Infrastructure.Services.WorkObjects
 {
-    class WorkObjectService : IWorkObjectService
+    public class WorkObjectService : IWorkObjectService
     {
         private readonly WManufactureContext _db;
 
