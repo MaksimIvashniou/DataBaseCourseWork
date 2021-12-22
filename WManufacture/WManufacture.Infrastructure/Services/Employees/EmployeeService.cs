@@ -21,21 +21,17 @@ namespace WManufacture.Infrastructure.Services.Employees
             _logger = logger;
         }
 
-        public async Task<Employee> CreateAsync(Employee data)
+        public async Task CreateAsync(Employee data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 if (!await _db.Employees.AnyAsync(employee => employee.Login.Equals(data.Login)))
                 {
                     _db.Employees.Add(data);
 
                     await _db.SaveChangesAsync();
-
-                    return data;
                 }
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -62,13 +58,16 @@ namespace WManufacture.Infrastructure.Services.Employees
             return employee;
         }
 
-        public async Task<Employee> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             Employee data)
         {
-            if (id == data.Id)
+            if (data != null
+                && id == data.Id)
             {
                 var employee = await _db.Employees.FindAsync(id);
+
+                //TODO Where(item => item.Login)
 
                 if (employee != null)
                 {
@@ -79,12 +78,8 @@ namespace WManufacture.Infrastructure.Services.Employees
                     _db.Update(employee);
 
                     await _db.SaveChangesAsync();
-
-                    return employee;
                 }
             }
-
-            return null;
         }
     }
 }

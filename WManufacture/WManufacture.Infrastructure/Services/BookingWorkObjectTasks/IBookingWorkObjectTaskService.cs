@@ -7,9 +7,9 @@ namespace WManufacture.Infrastructure.Services.BookingWorkObjectTasks
     {
         Task<BookingWorkObjectTask> GetAsync(int id);
 
-        Task<BookingWorkObjectTask> CreateAsync(BookingWorkObjectTask data);
+        Task CreateAsync(BookingWorkObjectTask data);
 
-        Task<BookingWorkObjectTask> UpdateAsync(
+        Task UpdateAsync(
             int id,
             BookingWorkObjectTask data);
 

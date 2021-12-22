@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using WManufacture.Common.Entity.Companies.WorkObjects;
 using WManufacture.Infrastructure.Databases;
 
@@ -8,23 +9,25 @@ namespace WManufacture.Infrastructure.Services.BookingWorkObjectTasks
     {
         private readonly WManufactureContext _db;
 
-        public BookingWorkObjectTaskService(WManufactureContext db)
+        private readonly ILogger<BookingWorkObjectTaskService> _logger;
+
+        public BookingWorkObjectTaskService(
+            WManufactureContext db,
+            ILogger<BookingWorkObjectTaskService> logger)
         {
             _db = db;
+
+            _logger = logger;
         }
 
-        public async Task<BookingWorkObjectTask> CreateAsync(BookingWorkObjectTask data)
+        public async Task CreateAsync(BookingWorkObjectTask data)
         {
-            if (data.Id <= 0)
+            if (data.Id == 0)
             {
                 _db.BookingWorkObjectTasks.Add(data);
 
                 await _db.SaveChangesAsync();
-
-                return data;
             }
-
-            return null;
         }
 
         public async Task DeleteAsync(int id)
@@ -46,7 +49,7 @@ namespace WManufacture.Infrastructure.Services.BookingWorkObjectTasks
             return bookingWorkOdjectTask;
         }
 
-        public async Task<BookingWorkObjectTask> UpdateAsync(
+        public async Task UpdateAsync(
             int id, 
             BookingWorkObjectTask data)
         {
@@ -63,12 +66,8 @@ namespace WManufacture.Infrastructure.Services.BookingWorkObjectTasks
                     _db.Update(bookingWorkOdjectTask);
 
                     await _db.SaveChangesAsync();
-
-                    return data;
                 }
             }
-
-            return null;
         }
     }
 }

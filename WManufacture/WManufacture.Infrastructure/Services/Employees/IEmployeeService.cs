@@ -10,9 +10,9 @@ namespace WManufacture.Infrastructure.Services.Employees
 
         Task<Employee> GetAsync(int id);
 
-        Task<Employee> CreateAsync(Employee data);
+        Task CreateAsync(Employee data);
 
-        Task<Employee> UpdateAsync(
+        Task UpdateAsync(
             int id,
             Employee data);
 
