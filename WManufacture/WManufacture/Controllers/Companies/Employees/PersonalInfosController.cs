@@ -1,56 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.WorkObjects;
-using WManufacture.Infrastructure.Services.WorkObjects.BookingWorkObjectTasks;
+using WManufacture.Common.Entity.Companies.Employees;
+using WManufacture.Infrastructure.Services.Employees.PersonalInfos;
 
-namespace WManufacture.Controllers.WorkObjects
+namespace WManufacture.Controllers.Companies.Employees
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingWorkObjectTasksController : ControllerBase
+    public class PersonalInfosController : ControllerBase
     {
-        private readonly ILogger<BookingWorkObjectTasksController> _logger;
+        private readonly ILogger<PersonalInfosController> _logger;
 
-        private readonly IBookingWorkObjectTaskService _bookingWorkObjectTaskService;
+        private readonly IPersonalInfoService _personalInfoService;
 
-        public BookingWorkObjectTasksController(
-            ILogger<BookingWorkObjectTasksController> logger,
-            IBookingWorkObjectTaskService bookingWorkObjectTaskService)
+        public PersonalInfosController(
+            ILogger<PersonalInfosController> logger,
+            IPersonalInfoService personalInfoService)
         {
             _logger = logger;
 
-            _bookingWorkObjectTaskService = bookingWorkObjectTaskService;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<List<BookingWorkObjectTask>>> GetAsync()
-        {
-            try
-            {
-                var list = await _bookingWorkObjectTaskService.GetAsync();
-
-                return Ok(list);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    "Error with GET BookingWorkObjectTasks",
-                    ex);
-
-                return StatusCode(500);
-            }
+            _personalInfoService = personalInfoService;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkObject>> GetAsync(
+        public async Task<ActionResult<PersonalInfo>> GetAsync(
             int id)
         {
             try
             {
-                var item = _bookingWorkObjectTaskService.GetAsync(
+                var item = await _personalInfoService.GetAsync(
                     id);
 
                 if (item != null)
@@ -65,7 +45,7 @@ namespace WManufacture.Controllers.WorkObjects
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET BookingWorkObjectTasks",
+                    "Error with GET PersonalInfos",
                     ex);
 
                 return StatusCode(500);
@@ -74,13 +54,13 @@ namespace WManufacture.Controllers.WorkObjects
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] BookingWorkObjectTask data)
+            [FromBody] PersonalInfo data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _bookingWorkObjectTaskService.CreateAsync(
+                    await _personalInfoService.CreateAsync(
                         data);
 
                     return StatusCode(204);
@@ -88,7 +68,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST BookingWorkObjectTasks",
+                        "Error wirth POST PersonalInfos",
                         ex);
 
                     return StatusCode(500);
@@ -103,7 +83,7 @@ namespace WManufacture.Controllers.WorkObjects
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] BookingWorkObjectTask data)
+            [FromBody] PersonalInfo data)
         {
             if (id > 0
                 && data != null
@@ -111,7 +91,7 @@ namespace WManufacture.Controllers.WorkObjects
             {
                 try
                 {
-                    await _bookingWorkObjectTaskService.UpdateAsync(
+                    await _personalInfoService.UpdateAsync(
                         id,
                         data);
 
@@ -120,7 +100,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT BookingWorkObjectTasks",
+                        "Error with PUT PersonalInfos",
                         ex);
 
                     return StatusCode(500);
@@ -140,7 +120,7 @@ namespace WManufacture.Controllers.WorkObjects
             {
                 try
                 {
-                    await _bookingWorkObjectTaskService.DeleteAsync(
+                    await _personalInfoService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -148,7 +128,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE BookingWorkObjectTasks",
+                        "Error with DELETE PersonalInfos",
                         ex);
 
                     return StatusCode(500);

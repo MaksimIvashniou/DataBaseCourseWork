@@ -1,36 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.Employees;
-using WManufacture.Infrastructure.Services.Employees.Permissions;
+using WManufacture.Common.Entity.Companies.WeldingMachines;
+using WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMachines;
 
-namespace WManufacture.Controllers.Employees
+namespace WManufacture.Controllers.Companies.WeldingMachines
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PermissionsController : ControllerBase
+    public class ModelOfWeldingMachinesController : ControllerBase
     {
-        private readonly ILogger<PermissionsController> _logger;
+        private readonly ILogger<ModelOfWeldingMachinesController> _logger;
 
-        private readonly IPermissionService _permissionService;
+        private readonly IModelOfWeldingMachineService _modelOfWeldingMachineService;
 
-        public PermissionsController(
-            ILogger<PermissionsController> logger,
-            IPermissionService permissionService)
+        public ModelOfWeldingMachinesController(
+            ILogger<ModelOfWeldingMachinesController> logger,
+            IModelOfWeldingMachineService modelOfWeldingMachineService)
         {
             _logger = logger;
 
-            _permissionService = permissionService;
+            _modelOfWeldingMachineService = modelOfWeldingMachineService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<ModelOfWeldingMachine>>> GetAsync()
+        {
+            try
+            {
+                var list = await _modelOfWeldingMachineService.GetAsync();
+
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error with GET ModelOfWeldingMachines",
+                    ex);
+
+                return StatusCode(500);
+            }
+        }
+        
         [HttpGet("{id}")]
-        public async Task<ActionResult<Permission>> GetAsync(
+        public async Task<ActionResult<ModelOfWeldingMachine>> GetAsync(
             int id)
         {
             try
             {
-                var item = _permissionService.GetAsync(
+                var item = await _modelOfWeldingMachineService.GetAsync(
                     id);
 
                 if (item != null)
@@ -45,7 +65,7 @@ namespace WManufacture.Controllers.Employees
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET Permissions",
+                    "Error with GET ModelOfWeldingMachines",
                     ex);
 
                 return StatusCode(500);
@@ -54,13 +74,13 @@ namespace WManufacture.Controllers.Employees
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] Permission data)
+            [FromBody] ModelOfWeldingMachine data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _permissionService.CreateAsync(
+                    await _modelOfWeldingMachineService.CreateAsync(
                         data);
 
                     return StatusCode(204);
@@ -68,7 +88,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST Permissions",
+                        "Error with POST ModelOfWeldingMachines",
                         ex);
 
                     return StatusCode(500);
@@ -83,7 +103,7 @@ namespace WManufacture.Controllers.Employees
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] Permission data)
+            [FromBody] ModelOfWeldingMachine data)
         {
             if (id > 0
                 && data != null
@@ -91,7 +111,7 @@ namespace WManufacture.Controllers.Employees
             {
                 try
                 {
-                    await _permissionService.UpdateAsync(
+                    await _modelOfWeldingMachineService.UpdateAsync(
                         id,
                         data);
 
@@ -100,7 +120,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT Permissions",
+                        "Error with PUT ModelOfWeldingMachines",
                         ex);
 
                     return StatusCode(500);
@@ -120,7 +140,7 @@ namespace WManufacture.Controllers.Employees
             {
                 try
                 {
-                    await _permissionService.DeleteAsync(
+                    await _modelOfWeldingMachineService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -128,7 +148,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE Permissions",
+                        "Error with DELETE ModelOfWeldingMachines",
                         ex);
 
                     return StatusCode(500);

@@ -1,59 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.Employees;
-using WManufacture.Infrastructure.Services.Employees;
+using WManufacture.Common.Entity.Companies.WeldingMachines;
+using WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacteristics;
 
-namespace WManufacture.Controllers.Employees
+namespace WManufacture.Controllers.Companies.WeldingMachines
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class ModelCharacteristicsController : ControllerBase
     {
-        private readonly ILogger<EmployeesController> _logger;
+        private readonly ILogger<ModelCharacteristicsController> _logger;
 
-        private readonly IEmployeeService _employeeService;
+        private readonly IModelCharacteristicService _modelCharacteristicService;
 
-        public EmployeesController(
-            ILogger<EmployeesController> logger,
-            IEmployeeService employeeService)
+        public ModelCharacteristicsController(
+            ILogger<ModelCharacteristicsController> logger,
+            IModelCharacteristicService modelCharacteristicService)
         {
             _logger = logger;
 
-            _employeeService = employeeService;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<List<Employee>>> GetAsync()
-        {
-            try
-            {
-                var list = await _employeeService.GetAsync();
-
-                return Ok(list);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(
-                    "Error with GET Employees",
-                    ex);
-
-                return StatusCode(500);
-            }
+            _modelCharacteristicService = modelCharacteristicService;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetAsync(
+        public async Task<ActionResult<ModelCharacteristic>> GetAsync(
             int id)
         {
             try
             {
-                var item = _employeeService.GetAsync(
+                var item = await _modelCharacteristicService.GetAsync(
                     id);
 
-                if(item != null)
+                if (item != null)
                 {
                     return Ok(item);
                 }
@@ -65,30 +45,31 @@ namespace WManufacture.Controllers.Employees
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET Employees",
+                    "Error with GET ModelCharacteristics",
                     ex);
 
                 return StatusCode(500);
+                throw;
             }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] Employee data)
+            [FromBody] ModelCharacteristic data)
         {
-            if(data != null)
+            if (data != null)
             {
                 try
                 {
-                    await _employeeService.CreateAsync(
+                    await _modelCharacteristicService.CreateAsync(
                         data);
 
                     return StatusCode(204);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST Employees",
+                        "Error with POST ModelCharacteristics",
                         ex);
 
                     return StatusCode(500);
@@ -103,7 +84,7 @@ namespace WManufacture.Controllers.Employees
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] Employee data)
+            [FromBody] ModelCharacteristic data)
         {
             if (id > 0
                 && data != null
@@ -111,7 +92,7 @@ namespace WManufacture.Controllers.Employees
             {
                 try
                 {
-                    await _employeeService.UpdateAsync(
+                    await _modelCharacteristicService.UpdateAsync(
                         id,
                         data);
 
@@ -120,7 +101,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT Employees",
+                        "Error with PUT ModelCharacteristics",
                         ex);
 
                     return StatusCode(500);
@@ -140,7 +121,7 @@ namespace WManufacture.Controllers.Employees
             {
                 try
                 {
-                    await _employeeService.DeleteAsync(
+                    await _modelCharacteristicService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -148,7 +129,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE Emloyees",
+                        "Error with DELETE ModelCharacteristics",
                         ex);
 
                     return StatusCode(500);

@@ -3,41 +3,41 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.WorkObjects;
-using WManufacture.Infrastructure.Services.WorkObjects;
+using WManufacture.Common.Entity.Companies.Employees;
+using WManufacture.Infrastructure.Services.Employees.Positions;
 
-namespace WManufacture.Controllers.WorkObjects
+namespace WManufacture.Controllers.Companies.Employees
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkObjectsController : ControllerBase
+    public class PositionsController : ControllerBase
     {
-        private readonly ILogger<WorkObjectsController> _logger;
+        private readonly ILogger<PositionsController> _logger;
 
-        private readonly IWorkObjectService _workObjectService;
+        private readonly IPositionService _positionService;
 
-        public WorkObjectsController(
-            ILogger<WorkObjectsController> logger,
-            IWorkObjectService workObjectService)
+        public PositionsController(
+            ILogger<PositionsController> logger,
+            IPositionService positionService)
         {
             _logger = logger;
 
-            _workObjectService = workObjectService;
+            _positionService = positionService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<WorkObject>>> GetAsync()
+        public async Task<ActionResult<List<Position>>> GetAsync()
         {
             try
             {
-                var list = await _workObjectService.GetAsync();
+                var list = await _positionService.GetAsync();
 
                 return Ok(list);
             }
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET WorkObjects",
+                    "Error with GET Positions",
                     ex);
 
                 return StatusCode(500);
@@ -45,13 +45,12 @@ namespace WManufacture.Controllers.WorkObjects
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkObject>> GetAsync(
+        public async Task<ActionResult<Position>> GetAsync(
             int id)
         {
             try
             {
-                var item = _workObjectService.GetAsync(
-                    id);
+                var item = await _positionService.GetAsync(id);
 
                 if (item != null)
                 {
@@ -65,7 +64,7 @@ namespace WManufacture.Controllers.WorkObjects
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET WorkObjects",
+                    "Error with GET Positions",
                     ex);
 
                 return StatusCode(500);
@@ -73,22 +72,21 @@ namespace WManufacture.Controllers.WorkObjects
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(
-            [FromBody] WorkObject data)
+        public async Task<ActionResult> CreateAsync(
+            [FromBody] Position data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _workObjectService.CreateAsync(
-                        data);
+                    await _positionService.CreateAsync(data);
 
                     return StatusCode(204);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST WorkObjects",
+                        "Error with POST Positions",
                         ex);
 
                     return StatusCode(500);
@@ -96,14 +94,14 @@ namespace WManufacture.Controllers.WorkObjects
             }
             else
             {
-                return BadRequest();
+                return BadRequest(500);
             }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] WorkObject data)
+            [FromBody] Position data)
         {
             if (id > 0
                 && data != null
@@ -111,7 +109,7 @@ namespace WManufacture.Controllers.WorkObjects
             {
                 try
                 {
-                    await _workObjectService.UpdateAsync(
+                    await _positionService.UpdateAsync(
                         id,
                         data);
 
@@ -120,7 +118,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT WorkObjects",
+                        "Error with PUT Positions",
                         ex);
 
                     return StatusCode(500);
@@ -140,7 +138,7 @@ namespace WManufacture.Controllers.WorkObjects
             {
                 try
                 {
-                    await _workObjectService.DeleteAsync(
+                    await _positionService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -148,7 +146,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE WorkObjects",
+                        "Error with DELETE Positions",
                         ex);
 
                     return StatusCode(500);

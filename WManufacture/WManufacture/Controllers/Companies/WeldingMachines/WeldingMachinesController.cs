@@ -3,41 +3,41 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.Employees;
-using WManufacture.Infrastructure.Services.Employees.Positions;
+using WManufacture.Common.Entity.Companies.WeldingMachines;
+using WManufacture.Infrastructure.Services.WeldingMachines;
 
-namespace WManufacture.Controllers.Employees
+namespace WManufacture.Controllers.Companies.WeldingMachines
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PositionsController : ControllerBase
+    public class WeldingMachinesController : ControllerBase
     {
-        private readonly ILogger<PositionsController> _logger;
+        private readonly ILogger<WeldingMachinesController> _logger;
 
-        private readonly IPositionService _positionService;
+        private readonly IWeldingMachineService _weldingMachineService;
 
-        public PositionsController(
-            ILogger<PositionsController> logger,
-            IPositionService positionService)
+        public WeldingMachinesController(
+            ILogger<WeldingMachinesController> logger,
+            IWeldingMachineService weldingMachineService)
         {
             _logger = logger;
 
-            _positionService = positionService;
+            _weldingMachineService = weldingMachineService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Position>>> GetAsync()
+        public async Task<ActionResult<List<WeldingMachine>>> GetAsync()
         {
             try
             {
-                var list = await _positionService.GetAsync();
+                var list = await _weldingMachineService.GetAsync();
 
                 return Ok(list);
             }
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET Positions",
+                    "Error with GET WeldingMachines",
                     ex);
 
                 return StatusCode(500);
@@ -45,12 +45,13 @@ namespace WManufacture.Controllers.Employees
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Position>> GetAsync(
+        public async Task<ActionResult<WeldingMachine>> GetAsync(
             int id)
         {
             try
             {
-                var item = _positionService.GetAsync(id);
+                var item = await _weldingMachineService.GetAsync(
+                    id);
 
                 if (item != null)
                 {
@@ -64,7 +65,7 @@ namespace WManufacture.Controllers.Employees
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET Positions",
+                    "Erro with GET WeldingMachines",
                     ex);
 
                 return StatusCode(500);
@@ -72,21 +73,22 @@ namespace WManufacture.Controllers.Employees
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(
-            [FromBody] Position data)
+        public async Task<IActionResult> CreateAsync(
+            [FromBody] WeldingMachine data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _positionService.CreateAsync(data);
+                    await _weldingMachineService.CreateAsync(
+                        data);
 
                     return StatusCode(204);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST Positions",
+                        "Error with POST WeldingMachines",
                         ex);
 
                     return StatusCode(500);
@@ -94,14 +96,14 @@ namespace WManufacture.Controllers.Employees
             }
             else
             {
-                return BadRequest(500);
+                return BadRequest();
             }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] Position data)
+            [FromBody] WeldingMachine data)
         {
             if (id > 0
                 && data != null
@@ -109,7 +111,7 @@ namespace WManufacture.Controllers.Employees
             {
                 try
                 {
-                    await _positionService.UpdateAsync(
+                    await _weldingMachineService.UpdateAsync(
                         id,
                         data);
 
@@ -118,7 +120,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT Positions",
+                        "Error with PUT WeldingMachines",
                         ex);
 
                     return StatusCode(500);
@@ -138,7 +140,7 @@ namespace WManufacture.Controllers.Employees
             {
                 try
                 {
-                    await _positionService.DeleteAsync(
+                    await _weldingMachineService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -146,7 +148,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE Positions",
+                        "Error with DELETE WeldingMachines",
                         ex);
 
                     return StatusCode(500);

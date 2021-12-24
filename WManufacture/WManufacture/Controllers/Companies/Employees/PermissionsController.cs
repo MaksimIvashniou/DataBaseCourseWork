@@ -1,56 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.WorkObjects;
-using WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks;
+using WManufacture.Common.Entity.Companies.Employees;
+using WManufacture.Infrastructure.Services.Employees.Permissions;
 
-namespace WManufacture.Controllers.WorkObjects
+namespace WManufacture.Controllers.Companies.Employees
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkObjectTasksController : ControllerBase
+    public class PermissionsController : ControllerBase
     {
-        private readonly ILogger<WorkObjectTasksController> _logger;
+        private readonly ILogger<PermissionsController> _logger;
 
-        private readonly IWorkObjectTaskService _workObjectTaskService;
+        private readonly IPermissionService _permissionService;
 
-        public WorkObjectTasksController(
-            ILogger<WorkObjectTasksController> logger,
-            IWorkObjectTaskService workObjectTaskService)
+        public PermissionsController(
+            ILogger<PermissionsController> logger,
+            IPermissionService permissionService)
         {
             _logger = logger;
 
-            _workObjectTaskService = workObjectTaskService;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<List<WorkObjectTask>>> GetAsync()
-        {
-            try
-            {
-                var list = await _workObjectTaskService.GetAsync();
-
-                return Ok(list);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    "Error with GET WorkObjectTasks",
-                    ex);
-
-                return StatusCode(500);
-            }
+            _permissionService = permissionService;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkObjectTask>> GetAsync(
+        public async Task<ActionResult<Permission>> GetAsync(
             int id)
         {
             try
             {
-                var item = _workObjectTaskService.GetAsync(
+                var item = await _permissionService.GetAsync(
                     id);
 
                 if (item != null)
@@ -65,7 +45,7 @@ namespace WManufacture.Controllers.WorkObjects
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET WorkObjectTasks",
+                    "Error with GET Permissions",
                     ex);
 
                 return StatusCode(500);
@@ -74,13 +54,13 @@ namespace WManufacture.Controllers.WorkObjects
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] WorkObjectTask data)
+            [FromBody] Permission data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _workObjectTaskService.CreateAsync(
+                    await _permissionService.CreateAsync(
                         data);
 
                     return StatusCode(204);
@@ -88,7 +68,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST WorkObjectTasks",
+                        "Error with POST Permissions",
                         ex);
 
                     return StatusCode(500);
@@ -103,7 +83,7 @@ namespace WManufacture.Controllers.WorkObjects
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] WorkObjectTask data)
+            [FromBody] Permission data)
         {
             if (id > 0
                 && data != null
@@ -111,7 +91,7 @@ namespace WManufacture.Controllers.WorkObjects
             {
                 try
                 {
-                    await _workObjectTaskService.UpdateAsync(
+                    await _permissionService.UpdateAsync(
                         id,
                         data);
 
@@ -120,7 +100,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT WorkObjectTasks",
+                        "Error with PUT Permissions",
                         ex);
 
                     return StatusCode(500);
@@ -140,7 +120,7 @@ namespace WManufacture.Controllers.WorkObjects
             {
                 try
                 {
-                    await _workObjectTaskService.DeleteAsync(
+                    await _permissionService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -148,7 +128,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE WorkObjectTasks",
+                        "Error with DELETE Permissions",
                         ex);
 
                     return StatusCode(500);

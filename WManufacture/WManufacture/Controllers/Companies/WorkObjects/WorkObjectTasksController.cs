@@ -1,36 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.WeldingMachines;
-using WManufacture.Infrastructure.Services.WeldingMachines.ModelCharacteristics;
+using WManufacture.Common.Entity.Companies.WorkObjects;
+using WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTasks;
 
-namespace WManufacture.Controllers.WeldingMachines
+namespace WManufacture.Controllers.Companies.WorkObjects
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ModelCharacteristicsController : ControllerBase
+    public class WorkObjectTasksController : ControllerBase
     {
-        private readonly ILogger<ModelCharacteristicsController> _logger;
+        private readonly ILogger<WorkObjectTasksController> _logger;
 
-        private readonly IModelCharacteristicService _modelCharacteristicService;
+        private readonly IWorkObjectTaskService _workObjectTaskService;
 
-        public ModelCharacteristicsController(
-            ILogger<ModelCharacteristicsController> logger,
-            IModelCharacteristicService modelCharacteristicService)
+        public WorkObjectTasksController(
+            ILogger<WorkObjectTasksController> logger,
+            IWorkObjectTaskService workObjectTaskService)
         {
             _logger = logger;
 
-            _modelCharacteristicService = modelCharacteristicService;
+            _workObjectTaskService = workObjectTaskService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<WorkObjectTask>>> GetAsync()
+        {
+            try
+            {
+                var list = await _workObjectTaskService.GetAsync();
+
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    "Error with GET WorkObjectTasks",
+                    ex);
+
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ModelCharacteristic>> GetAsync(
+        public async Task<ActionResult<WorkObjectTask>> GetAsync(
             int id)
         {
             try
             {
-                var item = _modelCharacteristicService.GetAsync(
+                var item = await _workObjectTaskService.GetAsync(
                     id);
 
                 if (item != null)
@@ -45,23 +65,22 @@ namespace WManufacture.Controllers.WeldingMachines
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET ModelCharacteristics",
+                    "Error with GET WorkObjectTasks",
                     ex);
 
                 return StatusCode(500);
-                throw;
             }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] ModelCharacteristic data)
+            [FromBody] WorkObjectTask data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _modelCharacteristicService.CreateAsync(
+                    await _workObjectTaskService.CreateAsync(
                         data);
 
                     return StatusCode(204);
@@ -69,7 +88,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST ModelCharacteristics",
+                        "Error with POST WorkObjectTasks",
                         ex);
 
                     return StatusCode(500);
@@ -84,7 +103,7 @@ namespace WManufacture.Controllers.WeldingMachines
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] ModelCharacteristic data)
+            [FromBody] WorkObjectTask data)
         {
             if (id > 0
                 && data != null
@@ -92,7 +111,7 @@ namespace WManufacture.Controllers.WeldingMachines
             {
                 try
                 {
-                    await _modelCharacteristicService.UpdateAsync(
+                    await _workObjectTaskService.UpdateAsync(
                         id,
                         data);
 
@@ -101,7 +120,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT ModelCharacteristics",
+                        "Error with PUT WorkObjectTasks",
                         ex);
 
                     return StatusCode(500);
@@ -121,7 +140,7 @@ namespace WManufacture.Controllers.WeldingMachines
             {
                 try
                 {
-                    await _modelCharacteristicService.DeleteAsync(
+                    await _workObjectTaskService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -129,7 +148,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE ModelCharacteristics",
+                        "Error with DELETE WorkObjectTasks",
                         ex);
 
                     return StatusCode(500);

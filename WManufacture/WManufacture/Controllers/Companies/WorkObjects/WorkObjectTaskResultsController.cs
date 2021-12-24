@@ -2,35 +2,35 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.Employees;
-using WManufacture.Infrastructure.Services.Employees.PersonalInfos;
+using WManufacture.Common.Entity.Companies.WorkObjects;
+using WManufacture.Infrastructure.Services.WorkObjects.WorkObjectTaskResults;
 
-namespace WManufacture.Controllers.Employees
+namespace WManufacture.Controllers.Companies.WorkObjects
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonalInfosController : ControllerBase
+    public class WorkObjectTaskResultsController : ControllerBase
     {
-        private readonly ILogger<PersonalInfosController> _logger;
+        private readonly ILogger<WorkObjectTaskResultsController> _logger;
 
-        private readonly IPersonalInfoService _personalInfoService;
+        private readonly IWorkObjectTaskResultService _workObjectTaskResultService;
 
-        public PersonalInfosController(
-            ILogger<PersonalInfosController> logger,
-            IPersonalInfoService personalInfoService)
+        public WorkObjectTaskResultsController(
+            ILogger<WorkObjectTaskResultsController> logger,
+            IWorkObjectTaskResultService workObjectTaskResultService)
         {
             _logger = logger;
 
-            _personalInfoService = personalInfoService;
+            _workObjectTaskResultService = workObjectTaskResultService;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PersonalInfo>> GetAsync(
+        public async Task<ActionResult<WorkObjectTaskResult>> GetAsync(
             int id)
         {
             try
             {
-                var item = _personalInfoService.GetAsync(
+                var item = await _workObjectTaskResultService.GetAsync(
                     id);
 
                 if (item != null)
@@ -45,7 +45,7 @@ namespace WManufacture.Controllers.Employees
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET PersonalInfos",
+                    "Error with GET WorkObjectTaskResults",
                     ex);
 
                 return StatusCode(500);
@@ -54,13 +54,13 @@ namespace WManufacture.Controllers.Employees
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] PersonalInfo data)
+            [FromBody] WorkObjectTaskResult data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _personalInfoService.CreateAsync(
+                    await _workObjectTaskResultService.CreateAsync(
                         data);
 
                     return StatusCode(204);
@@ -68,7 +68,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error wirth POST PersonalInfos",
+                        "Error with POST WorkObjectTaskResults",
                         ex);
 
                     return StatusCode(500);
@@ -83,7 +83,7 @@ namespace WManufacture.Controllers.Employees
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] PersonalInfo data)
+            [FromBody] WorkObjectTaskResult data)
         {
             if (id > 0
                 && data != null
@@ -91,7 +91,7 @@ namespace WManufacture.Controllers.Employees
             {
                 try
                 {
-                    await _personalInfoService.UpdateAsync(
+                    await _workObjectTaskResultService.UpdateAsync(
                         id,
                         data);
 
@@ -100,7 +100,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT PersonalInfos",
+                        "Error with PUT WorkObjectTaskResults",
                         ex);
 
                     return StatusCode(500);
@@ -120,7 +120,7 @@ namespace WManufacture.Controllers.Employees
             {
                 try
                 {
-                    await _personalInfoService.DeleteAsync(
+                    await _workObjectTaskResultService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -128,7 +128,7 @@ namespace WManufacture.Controllers.Employees
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE PersonalInfos",
+                        "Error with DELETE WorkObjectTaskResults",
                         ex);
 
                     return StatusCode(500);

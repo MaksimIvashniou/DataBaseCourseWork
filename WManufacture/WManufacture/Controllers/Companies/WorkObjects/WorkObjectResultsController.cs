@@ -1,56 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.WeldingMachines;
-using WManufacture.Infrastructure.Services.WeldingMachines.ModelOfWeldingMachines;
+using WManufacture.Common.Entity.Companies.WorkObjects;
+using WManufacture.Infrastructure.Services.WorkObjects.WorkObjectResults;
 
-namespace WManufacture.Controllers.WeldingMachines
+namespace WManufacture.Controllers.Companies.WorkObjects
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ModelOfWeldingMachinesController : ControllerBase
+    public class WorkObjectResultsController : ControllerBase
     {
-        private readonly ILogger<ModelOfWeldingMachinesController> _logger;
+        private readonly ILogger<WorkObjectResultsController> _logger;
 
-        private readonly IModelOfWeldingMachineService _modelOfWeldingMachineService;
+        private readonly IWorkObjectResultService _workObjectResultService;
 
-        public ModelOfWeldingMachinesController(
-            ILogger<ModelOfWeldingMachinesController> logger,
-            IModelOfWeldingMachineService modelOfWeldingMachineService)
+        public WorkObjectResultsController(
+            ILogger<WorkObjectResultsController> logger,
+            IWorkObjectResultService workObjectResultService)
         {
             _logger = logger;
 
-            _modelOfWeldingMachineService = modelOfWeldingMachineService;
+            _workObjectResultService = workObjectResultService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<ModelOfWeldingMachine>>> GetAsync()
-        {
-            try
-            {
-                var list = await _modelOfWeldingMachineService.GetAsync();
-
-                return Ok(list);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    "Error with GET ModelOfWeldingMachines",
-                    ex);
-
-                return StatusCode(500);
-            }
-        }
-        
         [HttpGet("{id}")]
-        public async Task<ActionResult<ModelOfWeldingMachine>> GetAsync(
+        public async Task<ActionResult<WorkObjectResult>> GetAsync(
             int id)
         {
             try
             {
-                var item = _modelOfWeldingMachineService.GetAsync(
+                var item = await _workObjectResultService.GetAsync(
                     id);
 
                 if (item != null)
@@ -65,7 +45,7 @@ namespace WManufacture.Controllers.WeldingMachines
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET ModelOfWeldingMachines",
+                    "Error with GET WorkObjectResults",
                     ex);
 
                 return StatusCode(500);
@@ -74,13 +54,13 @@ namespace WManufacture.Controllers.WeldingMachines
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] ModelOfWeldingMachine data)
+            [FromBody] WorkObjectResult data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _modelOfWeldingMachineService.CreateAsync(
+                    await _workObjectResultService.CreateAsync(
                         data);
 
                     return StatusCode(204);
@@ -88,7 +68,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST ModelOfWeldingMachines",
+                        "Error with POST WorkObjectResults",
                         ex);
 
                     return StatusCode(500);
@@ -103,7 +83,7 @@ namespace WManufacture.Controllers.WeldingMachines
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] ModelOfWeldingMachine data)
+            [FromBody] WorkObjectResult data)
         {
             if (id > 0
                 && data != null
@@ -111,7 +91,7 @@ namespace WManufacture.Controllers.WeldingMachines
             {
                 try
                 {
-                    await _modelOfWeldingMachineService.UpdateAsync(
+                    await _workObjectResultService.UpdateAsync(
                         id,
                         data);
 
@@ -120,7 +100,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT ModelOfWeldingMachines",
+                        "Error with PUT WorkObjectResults",
                         ex);
 
                     return StatusCode(500);
@@ -140,7 +120,7 @@ namespace WManufacture.Controllers.WeldingMachines
             {
                 try
                 {
-                    await _modelOfWeldingMachineService.DeleteAsync(
+                    await _workObjectResultService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -148,7 +128,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE ModelOfWeldingMachines",
+                        "Error with DELETE WorkObjectResults",
                         ex);
 
                     return StatusCode(500);

@@ -1,39 +1,59 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.WorkObjects;
-using WManufacture.Infrastructure.Services.WorkObjects.WorkObjectResults;
+using WManufacture.Common.Entity.Companies.Employees;
+using WManufacture.Infrastructure.Services.Employees;
 
-namespace WManufacture.Controllers.WorkObjects
+namespace WManufacture.Controllers.Companies.Employees
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkObjectResultsController : ControllerBase
+    public class EmployeesController : ControllerBase
     {
-        private readonly ILogger<WorkObjectResultsController> _logger;
+        private readonly ILogger<EmployeesController> _logger;
 
-        private readonly IWorkObjectResultService _workObjectResultService;
+        private readonly IEmployeeService _employeeService;
 
-        public WorkObjectResultsController(
-            ILogger<WorkObjectResultsController> logger,
-            IWorkObjectResultService workObjectResultService)
+        public EmployeesController(
+            ILogger<EmployeesController> logger,
+            IEmployeeService employeeService)
         {
             _logger = logger;
 
-            _workObjectResultService = workObjectResultService;
+            _employeeService = employeeService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<Employee>>> GetAsync()
+        {
+            try
+            {
+                var list = await _employeeService.GetAsync();
+
+                return Ok(list);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(
+                    "Error with GET Employees",
+                    ex);
+
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkObjectResult>> GetAsync(
+        public async Task<ActionResult<Employee>> GetAsync(
             int id)
         {
             try
             {
-                var item = _workObjectResultService.GetAsync(
+                var item = await _employeeService.GetAsync(
                     id);
 
-                if (item != null)
+                if(item != null)
                 {
                     return Ok(item);
                 }
@@ -45,7 +65,7 @@ namespace WManufacture.Controllers.WorkObjects
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET WorkObjectResults",
+                    "Error with GET Employees",
                     ex);
 
                 return StatusCode(500);
@@ -54,21 +74,21 @@ namespace WManufacture.Controllers.WorkObjects
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] WorkObjectResult data)
+            [FromBody] Employee data)
         {
-            if (data != null)
+            if(data != null)
             {
                 try
                 {
-                    await _workObjectResultService.CreateAsync(
+                    await _employeeService.CreateAsync(
                         data);
 
                     return StatusCode(204);
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST WorkObjectResults",
+                        "Error with POST Employees",
                         ex);
 
                     return StatusCode(500);
@@ -83,7 +103,7 @@ namespace WManufacture.Controllers.WorkObjects
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] WorkObjectResult data)
+            [FromBody] Employee data)
         {
             if (id > 0
                 && data != null
@@ -91,7 +111,7 @@ namespace WManufacture.Controllers.WorkObjects
             {
                 try
                 {
-                    await _workObjectResultService.UpdateAsync(
+                    await _employeeService.UpdateAsync(
                         id,
                         data);
 
@@ -100,7 +120,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT WorkObjectResults",
+                        "Error with PUT Employees",
                         ex);
 
                     return StatusCode(500);
@@ -120,7 +140,7 @@ namespace WManufacture.Controllers.WorkObjects
             {
                 try
                 {
-                    await _workObjectResultService.DeleteAsync(
+                    await _employeeService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -128,7 +148,7 @@ namespace WManufacture.Controllers.WorkObjects
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE WorkObjectResults",
+                        "Error with DELETE Emloyees",
                         ex);
 
                     return StatusCode(500);

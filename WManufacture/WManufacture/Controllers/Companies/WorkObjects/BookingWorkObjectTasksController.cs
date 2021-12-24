@@ -3,41 +3,41 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WManufacture.Common.Entity.Companies.WeldingMachines;
-using WManufacture.Infrastructure.Services.WeldingMachines;
+using WManufacture.Common.Entity.Companies.WorkObjects;
+using WManufacture.Infrastructure.Services.WorkObjects.BookingWorkObjectTasks;
 
-namespace WManufacture.Controllers.WeldingMachines
+namespace WManufacture.Controllers.Companies.WorkObjects
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WeldingMachinesController : ControllerBase
+    public class BookingWorkObjectTasksController : ControllerBase
     {
-        private readonly ILogger<WeldingMachinesController> _logger;
+        private readonly ILogger<BookingWorkObjectTasksController> _logger;
 
-        private readonly IWeldingMachineService _weldingMachineService;
+        private readonly IBookingWorkObjectTaskService _bookingWorkObjectTaskService;
 
-        public WeldingMachinesController(
-            ILogger<WeldingMachinesController> logger,
-            IWeldingMachineService weldingMachineService)
+        public BookingWorkObjectTasksController(
+            ILogger<BookingWorkObjectTasksController> logger,
+            IBookingWorkObjectTaskService bookingWorkObjectTaskService)
         {
             _logger = logger;
 
-            _weldingMachineService = weldingMachineService;
+            _bookingWorkObjectTaskService = bookingWorkObjectTaskService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<WeldingMachine>>> GetAsync()
+        public async Task<ActionResult<List<BookingWorkObjectTask>>> GetAsync()
         {
             try
             {
-                var list = await _weldingMachineService.GetAsync();
+                var list = await _bookingWorkObjectTaskService.GetAsync();
 
                 return Ok(list);
             }
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Error with GET WeldingMachines",
+                    "Error with GET BookingWorkObjectTasks",
                     ex);
 
                 return StatusCode(500);
@@ -45,12 +45,12 @@ namespace WManufacture.Controllers.WeldingMachines
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WeldingMachine>> GetAsync(
+        public async Task<ActionResult<WorkObject>> GetAsync(
             int id)
         {
             try
             {
-                var item = _weldingMachineService.GetAsync(
+                var item = await _bookingWorkObjectTaskService.GetAsync(
                     id);
 
                 if (item != null)
@@ -65,7 +65,7 @@ namespace WManufacture.Controllers.WeldingMachines
             catch (Exception ex)
             {
                 _logger.LogError(
-                    "Erro with GET WeldingMachines",
+                    "Error with GET BookingWorkObjectTasks",
                     ex);
 
                 return StatusCode(500);
@@ -74,13 +74,13 @@ namespace WManufacture.Controllers.WeldingMachines
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
-            [FromBody] WeldingMachine data)
+            [FromBody] BookingWorkObjectTask data)
         {
             if (data != null)
             {
                 try
                 {
-                    await _weldingMachineService.CreateAsync(
+                    await _bookingWorkObjectTaskService.CreateAsync(
                         data);
 
                     return StatusCode(204);
@@ -88,7 +88,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with POST WeldingMachines",
+                        "Error with POST BookingWorkObjectTasks",
                         ex);
 
                     return StatusCode(500);
@@ -103,7 +103,7 @@ namespace WManufacture.Controllers.WeldingMachines
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(
             int id,
-            [FromBody] WeldingMachine data)
+            [FromBody] BookingWorkObjectTask data)
         {
             if (id > 0
                 && data != null
@@ -111,7 +111,7 @@ namespace WManufacture.Controllers.WeldingMachines
             {
                 try
                 {
-                    await _weldingMachineService.UpdateAsync(
+                    await _bookingWorkObjectTaskService.UpdateAsync(
                         id,
                         data);
 
@@ -120,7 +120,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with PUT WeldingMachines",
+                        "Error with PUT BookingWorkObjectTasks",
                         ex);
 
                     return StatusCode(500);
@@ -140,7 +140,7 @@ namespace WManufacture.Controllers.WeldingMachines
             {
                 try
                 {
-                    await _weldingMachineService.DeleteAsync(
+                    await _bookingWorkObjectTaskService.DeleteAsync(
                         id);
 
                     return StatusCode(204);
@@ -148,7 +148,7 @@ namespace WManufacture.Controllers.WeldingMachines
                 catch (Exception ex)
                 {
                     _logger.LogError(
-                        "Error with DELETE WeldingMachines",
+                        "Error with DELETE BookingWorkObjectTasks",
                         ex);
 
                     return StatusCode(500);
