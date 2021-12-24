@@ -45,12 +45,11 @@ namespace WManufacture.Controllers.Companies
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Company>> GetAsync(
-            int id)
+        public async Task<ActionResult<Company>> GetAsync(int id)
         {
             try
             {
-                var item = _companyService.GetAsync(
+                var item = await _companyService.GetAsync(
                     id);
 
                 if (item != null)
@@ -73,8 +72,7 @@ namespace WManufacture.Controllers.Companies
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(
-            [FromBody] Company data)
+        public async Task<ActionResult> CreateAsync([FromBody] Company data)
         {
             if (data != null)
             {
@@ -133,8 +131,7 @@ namespace WManufacture.Controllers.Companies
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(
-            int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             if (id > 0)
             {
