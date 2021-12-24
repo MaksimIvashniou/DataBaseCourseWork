@@ -1,10 +1,12 @@
 import { BookingWorkObjectTask } from "../workObjects/bookingWorkObjectTask";
 
-export interface Employee {
+export interface WeldingMachine {
 
     id: number;
 
-    login: string;
+    name: string;
+
+    certificationDate: Date;
 
     bookingWorkObjectTasks: BookingWorkObjectTask[];
 }
