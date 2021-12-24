@@ -1,6 +1,6 @@
 import { WorkObjectTask } from "./workObjectTask";
 
-export interface WorkObjects {
+export interface WorkObject {
 
     id: number;
 

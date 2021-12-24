@@ -1,4 +1,4 @@
-export interface ModelCharacteristics {
+export interface ModelCharacteristic {
 
     id: number;
 

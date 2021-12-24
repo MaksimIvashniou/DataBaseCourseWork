@@ -1,30 +1,30 @@
 import { HttpClient } from '@angular/common/http';
+import { Position } from 'src/app/models/employees/position';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Company } from 'src/app/models/company';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CompanyService {
+export class PositionService {
 
-  private url = `${window.location.href}api/companies`;
+  private url = `${window.location.href}api/positions`;
 
   constructor(private http: HttpClient) { }
 
-  getList(): Observable<Company[]> {
-    return this.http.get<Company[]>(this.url);
+  getList(): Observable<Position[]> {
+    return this.http.get<Position[]>(this.url);
   }
 
-  get(id: number): Observable<Company> {
-    return this.http.get<Company>(`${this.url}/${id}`);
+  get(id: number): Observable<Position> {
+    return this.http.get<Position>(`${this.url}/${id}`);
   }
 
-  create(data: Company): Observable<void> {
+  create(data: Position): Observable<void> {
     return this.http.post<void>(this.url, data);
   }
 
-  update(data: Company): Observable<void> {
+  update(data: Position): Observable<void> {
     return this.http.put<void>(`${this.url}/${data.id}`, data);
   }
 
