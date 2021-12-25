@@ -1,6 +1,6 @@
 import { Employee } from "./employees/employee";
 import { WeldingMachine } from "./weldingMachines/weldingMachine";
-import { WorkObjects } from "./workObjects/workObject";
+import { WorkObject } from "./workObjects/workObject";
 
 export interface Company {
 
@@ -12,5 +12,5 @@ export interface Company {
 
     weldingMacines: WeldingMachine[];
 
-    workObjects: WorkObjects[];
+    workObjects: WorkObject[];
 }
