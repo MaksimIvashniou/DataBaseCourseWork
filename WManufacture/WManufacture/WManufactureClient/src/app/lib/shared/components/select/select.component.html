@@ -1,0 +1,7 @@
+<div class="db-select">
+    <select (change)="onSelectOptionChange($event)" [id]="selectId">
+        <option *ngFor="let option of selectOptions" [value]="option.value">
+            {{option.viewValue}}
+        </option>
+    </select>
+</div>

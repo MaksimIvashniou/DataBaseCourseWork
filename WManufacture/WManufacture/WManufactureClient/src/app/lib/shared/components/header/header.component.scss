@@ -1,0 +1,11 @@
+@import "../../../shared/variables.scss";
+
+.header {
+    height: $footer-height;
+    background-color: $color-grey-80;
+    padding: 0 2 * $main-grid-unit;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}

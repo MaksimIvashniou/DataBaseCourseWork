@@ -1,0 +1,57 @@
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <app-checkbox (change)="$event ? masterToggle() : null"
+                [isChecked]="selection.hasValue() && isAllSelected()"
+                [isIndeterminate]="selection.hasValue() && !isAllSelected()" [ariaLabel]="checkboxLabel()"
+                caption="Фамилия Имя">
+            </app-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+            <app-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                [isChecked]="selection.isSelected(row)" [ariaLabel]="checkboxLabel(row)" [caption]="row.name">
+            </app-checkbox>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Дата аттестации
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.date}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Разряд
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.title}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="object">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Объект
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.object}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Состояние
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.state}}
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+    </tr>
+</table>

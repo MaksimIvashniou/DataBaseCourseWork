@@ -1,0 +1,20 @@
+@import "../../variables.scss";
+
+.db-button {
+    border: none;
+    outline: none;
+    color: $baseWhite;
+    font-family: $baseFont;
+    font-size: $baseFontSize;
+    height: $baseHeightSharedComponent;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &-primary {
+        background-color: $primaryButtonColor;
+    }
+
+    &-secondary {
+        background-color: $secondaryButtonColor;
+    }
+}
