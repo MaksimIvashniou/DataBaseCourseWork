@@ -48,10 +48,7 @@ namespace WManufacture
                     });
             });
 
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = $"{_jsClient}/dist";
-            });
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = $"{_jsClient}/dist");
         }
 
         public void Configure(IApplicationBuilder app)
@@ -74,10 +71,7 @@ namespace WManufacture
             app.UseRouting();
 
             app
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapDefaultControllerRoute();
-                })
+                .UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute())
                 .UseSpa(spa =>
                 {
                     spa.Options.SourcePath = $"{_jsClient}";
