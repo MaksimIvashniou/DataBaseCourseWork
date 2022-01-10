@@ -1,0 +1,26 @@
+//grid
+$main-grid-unit: 10px;
+$secondary-grid-unit: 6px;
+$baseFontSize: 20px;
+$baseHeightSharedComponent: 40px;
+//layout
+$layout-total-width: 128 * $main-grid-unit;
+$header-height: 6 * $main-grid-unit;
+$footer-height: 6 * $main-grid-unit;
+$layout-outer-padding: 2 * $main-grid-unit;
+$app-content-max-width: 1100px;
+$app-content-top: 20px;
+$app-content-left: 20px;
+$baseFont: "Arial";
+// _text
+$color-text-primary: #303240;
+$color-text-secondary: #ffffff;
+// _grey
+$color-grey-80: #3f51b5;
+$baseWhite: #fff;
+$baseBlack: #000;
+$baseGray: #f2f2f2;
+$primaryButtonColor: #a3c644;
+$secondaryButtonColor: #666;
+$hoverLinkColor: #0f535e;
+$navigationBackgroundColor: #39c2d7;

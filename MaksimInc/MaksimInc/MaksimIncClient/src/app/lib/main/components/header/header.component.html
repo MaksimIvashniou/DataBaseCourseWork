@@ -1,0 +1,10 @@
+<mat-toolbar color="primary" class="header">
+    <span>
+        Maksim Inc
+    </span>
+    <span class="spacer"></span>
+    <button mat-button *ngFor="let route of routes" routerLinkActive="navigation__link--active"
+        [routerLink]="route.link" [routerLinkActiveOptions]="{exact: true}">
+        {{route.name}}
+    </button>
+</mat-toolbar>

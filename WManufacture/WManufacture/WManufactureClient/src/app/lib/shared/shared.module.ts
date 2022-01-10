@@ -11,7 +11,6 @@ import { ButtonComponent } from './components/button/button.component';
 import { TableComponent } from './components/table/table.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 
-
 @NgModule({
     declarations: [
         HeaderComponent,
