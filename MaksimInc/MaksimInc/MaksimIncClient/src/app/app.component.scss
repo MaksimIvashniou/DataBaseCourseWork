@@ -1,0 +1,37 @@
+@import url("lib/shared/variables.scss");
+
+.app {
+    &__header {
+        height: $header-height;
+    }
+
+    &__main {
+        height: 100vh;
+        overflow-y: overlay;
+
+        &--short {
+            height: calc(100vh - #{$header-height} - #{$footer-height});
+        }
+    }
+
+    &__footer {
+        height: $footer-height;
+    }
+}
+
+.app-body {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.app-content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+    max-width: $app-content-max-width;
+    background-color: white;
+    flex-grow: 1;
+}
