@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkObjectsComponent implements OnInit {
 
+  public search: string = '';
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  public searchChange(value: any, element?: any): void {
+    if (element) {
+      element.value = '';
+    }
+    this.search = value.value;
+  }
 }
