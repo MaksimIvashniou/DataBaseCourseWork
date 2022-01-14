@@ -1,1 +1,14 @@
-<p>work-objects works!</p>
+<div class="db-work-objects-page">
+    <div class="db-work-objects-control">
+        <app-input placeholder="Текст" inputId="search" (inputChange)="searchChange($event)"></app-input>
+        <app-button caption="Поиск" [type]="ButtonType.Primary" (buttonClick)="searchEngine()">
+        </app-button>
+        <app-button caption="Очистить" [type]="ButtonType.Secondary" (buttonClick)="clear()">
+        </app-button>
+    </div>
+    <div class="db-employes-page-buttons">
+        <app-button caption="Добавить объект" [type]="ButtonType.Primary">
+        </app-button>
+    </div>
+    <app-table [columns]="['object', 'taskCount', 'objectResult']" [data]="[]"></app-table>
+</div>

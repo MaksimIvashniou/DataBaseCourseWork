@@ -1,1 +1,22 @@
-<p>weldings works!</p>
+<div class="db-weldings-page">
+    <div class="db-weldings-page-control">
+        <app-input placeholder="Текст" inputId="search" (inputChange)="searchChange($event)"></app-input>
+        <app-select selectId="model" [selectOptions]="modelOptions" (selectChange)="modelSelectChange($event)">
+        </app-select>
+        <app-select selectId="object" [selectOptions]="objectOptions" (selectChange)="objectSelectChange($event)">
+        </app-select>
+        <app-select selectId="state" [selectOptions]="stateOptions" (selectChange)="stateSelectChange($event)">
+        </app-select>
+        <app-button caption="Поиск" [type]="ButtonType.Primary" (buttonClick)="searchEngine()">
+        </app-button>
+        <app-button caption="Очистить" [type]="ButtonType.Secondary" (buttonClick)="clear()">
+        </app-button>
+    </div>
+    <div class="db-employes-page-buttons">
+        <app-button caption="Добавить сварочный аппарат" [type]="ButtonType.Primary">
+        </app-button>
+        <app-button caption="В PDF" [type]="ButtonType.Primary">
+        </app-button>
+    </div>
+    <app-table [columns]="['name', 'dateSertification', 'model', 'object', 'state']" [data]="[]"></app-table>
+</div>
