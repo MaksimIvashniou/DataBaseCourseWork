@@ -8,7 +8,7 @@ namespace MaksimInc
 {
     public static class PManufactureDependencyContainer
     {
-        public static void RegistrationOfDependency(
+        public static void PManufactureDependency(
            this IServiceCollection services,
            IConfiguration configuration)
         {
